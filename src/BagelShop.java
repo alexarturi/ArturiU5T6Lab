@@ -38,7 +38,7 @@ public class BagelShop
      amount to the bagel shop's profit, and reduce quantity.  Return true (bagel purchase was successful).
 
      @param card  The CreditCard used to pay for the bagels
-     @param int  How many bagels are being purchasd
+     @param quantity  How many bagels are being purchased
      @param cardPIN  The PIN number provided by the customer
 
      @return  Return true if the purchase was successful, false if the purchase was unsuccessful
@@ -64,14 +64,20 @@ public class BagelShop
      Return true (the bagel return was successful).
 
      @param card  The CreditCard used to pay for the bagels
-     @param int  How many bagels are being purchasd
+     @param quantity  How many bagels are being purchasd
      @param cardPIN  The PIN number provided by the customer
 
      @return  Return true if the purchase was successful, false if the purchase was unsuccessful
      */
     public boolean returnBagels(CreditCard card, int quantity, String cardPIN)
     {
-        // TO BE IMPLEMENTED
+        if (!(card.checkPIN(cardPIN))){
+            return false;
+        }
+        int r = quantity * bagelPrice;
+        card.reduceBalance(r);
+        profit -= r;
+        return true;
     }
 
     /** Deposits all current profits in the vendorBank
@@ -79,7 +85,8 @@ public class BagelShop
      */
     public void depositProfits()
     {
-        // TO BE IMPLEMENTED
+        vendorBank.vendorDeposit(profit);
+        profit = 0;
     }
 
     public String shopInfo()
